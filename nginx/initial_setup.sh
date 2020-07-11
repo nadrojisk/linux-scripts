@@ -1,5 +1,7 @@
 ## ensure if user is root
 
+echo "[+] Ensuring Root User"
+
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
   exit
@@ -11,6 +13,7 @@ apt-update
 apt-get install nginx -y
 
 ## Setup default config
+echo "[+] Setting up Default Site Config"
 
 echo "server {
         listen 80 default_server;
@@ -31,10 +34,14 @@ server {
 
 systemctl reload nginx
 
+echo "[+] Setting up Default Cert"
+
 apt-get install make-ssl-cert -y
 make-ssl-cert generate-default-snakeoil
 
 apt-get install ufw
+
+echo "[+] Setting up UFW Rules"
 
 ufw enable 
 ufw allow http
