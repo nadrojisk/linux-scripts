@@ -26,4 +26,14 @@ echo "server {
         index index.html;
     }
 
-}
+}" >> /etc/nginx/sites-available/$1
+
+ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled/$1
+
+echo "[+] Setting up Certbot"
+
+apt-get update
+apt-get install certbot python3-certbot-nginx
+certbot --nginx
+
+systemctl reload nginx
