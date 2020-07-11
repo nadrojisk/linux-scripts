@@ -9,7 +9,7 @@ fi
 
 if [ $@ != 2 ]
 then
-	echo "usage ./setup URL PORT"
+	echo "usage ./setup HOST PORT"
 	exit
 fi
 
