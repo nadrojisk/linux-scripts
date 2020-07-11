@@ -1,4 +1,4 @@
-## ensure if user is root
+echo "[+] Ensuring Root User"
 
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
@@ -11,7 +11,7 @@ then
 	exit
 fi
 
-## Setup default config
+echo "[+] Setting up Site Config"
 
 echo "server {
     listen 443 ssl http2;
