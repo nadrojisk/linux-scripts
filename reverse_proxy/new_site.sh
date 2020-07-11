@@ -18,3 +18,11 @@ echo "server {
 }" >> /etc/nginx/sites-available/$1
 
 ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled/$1
+
+echo "[+] Setting up Certbot"
+
+sudo apt-get update
+
+sudo apt-get install certbot python3-certbot-nginx
+
+sudo certbot --nginx
