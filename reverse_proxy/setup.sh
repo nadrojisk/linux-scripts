@@ -60,12 +60,15 @@ sudo systemctl reload nginx
 echo "[+] Setting up Certbot"
 
 sudo apt-get update
-sudo apt-get install software-properties-common
-sudo add-apt-repositiory universe
-sudo apt-get update
 
 sudo apt-get install certbot python3-certbot-nginx
 
 sudo certbot --nginx
 
+
+sudo apt-get install ufw
+
+sudo ufw enable 
+sudo ufw allow http
+sudo ufw allow https
 
