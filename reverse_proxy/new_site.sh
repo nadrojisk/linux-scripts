@@ -1,9 +1,19 @@
+## ensure if user is root
+
+echo "[+] Ensuring Root User"
+
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
 
 if [ $@ != 2 ]
 then
 	echo "usage ./setup URL PORT"
 	exit
 fi
+
+echo "[+] Setting up Site Config"
 
 echo "server {
 	listen 443 ssl http2;
@@ -21,8 +31,8 @@ ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled/$1
 
 echo "[+] Setting up Certbot"
 
-sudo apt-get update
+apt-get update
+apt-get install certbot python3-certbot-nginx
+certbot --nginx
 
-sudo apt-get install certbot python3-certbot-nginx
-
-sudo certbot --nginx
+systemctl reload nginx
