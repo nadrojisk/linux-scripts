@@ -31,8 +31,6 @@ ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled/$1
 
 ## Setup default config
 
-sudo cp /dev/null /etc/nginx/sites-available/default
-
 echo "server {
         listen 80 default_server;
         listen [::]:80 default_server;
