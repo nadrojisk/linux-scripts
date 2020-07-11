@@ -7,7 +7,7 @@ fi
 
 if [ $@ != 3 ]
 then
-	echo "usage ./setup URL PORT ROOT"
+	echo "usage ./setup HOST SITE_ROOT_PATH"
 	exit
 fi
 
