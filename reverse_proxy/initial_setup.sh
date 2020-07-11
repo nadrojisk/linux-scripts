@@ -29,6 +29,8 @@ server {
         return 403;
 }" > /etc/nginx/sites-available/default
 
+systemctl reload nginx
+
 apt-get install make-ssl-cert -y
 make-ssl-cert generate-default-snakeoil
 
