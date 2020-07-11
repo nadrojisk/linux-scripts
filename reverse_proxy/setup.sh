@@ -25,7 +25,7 @@ echo "server {
 	location / {
         	proxy_pass https://localhost:$2;
 	}
-}" > /etc/nginx/sites-available/$1
+}" >> /etc/nginx/sites-available/$1
 
 ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled/$1
 
