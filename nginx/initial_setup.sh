@@ -12,6 +12,9 @@ fi
 apt-update 
 apt-get install nginx -y
 
+## install certbot
+apt-get install certbot -y
+
 ## Setup default config
 echo "[+] Setting up Default Site Config"
 

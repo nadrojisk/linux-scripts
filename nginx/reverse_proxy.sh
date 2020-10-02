@@ -1,16 +1,17 @@
+#!/bin/bash
 ## ensure if user is root
+
+
+if [[ $# -ne 2 ]]; then
+	echo "usage ./setup HOST PORT"
+	exit
+fi
 
 echo "[+] Ensuring Root User"
 
-if [ "$EUID" -ne 0 ]
-  then echo "Please run as root"
-  exit
-fi
-
-if [ $@ != 2 ]
-then
-	echo "usage ./setup HOST PORT"
-	exit
+if [[ $EUID -ne 0 ]]; then
+	echo "This script must be run as root" 
+	exit 1
 fi
 
 echo "[+] Setting up Site Config"
@@ -25,14 +26,22 @@ echo "server {
 	location / {
         	proxy_pass https://localhost:$2;
 	}
-}" >> /etc/nginx/sites-available/$1
+}" >> /etc/nginx/sites-available/$1 
 
-ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled/$1
+if [ $? -ne 0 ]; then
+	echo "[+] Config creation failed!"
+	exit
+fi
+
+ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled/$1 
+
+if [ $? -ne 0 ]; then
+	echo "[+] Sym Link failed!"
+	exit
+fi
 
 echo "[+] Setting up Certbot"
 
-apt-get update
-apt-get install certbot python3-certbot-nginx
 certbot --nginx
 
 systemctl reload nginx
