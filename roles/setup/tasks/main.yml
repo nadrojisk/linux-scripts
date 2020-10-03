@@ -1,0 +1,17 @@
+---
+- name: Install certbot
+  apt:
+    name: certbot
+    update_cache: yes
+- name: Install nginx-cerbot
+  apt:
+    name: python3-certbot-nginx
+    update_cache: yes
+# - name: Create cert
+#   expect:
+#     command: certbot --nginx
+#     responses:
+#       "Enter email address": nadrojisk@pm.me
+#       "(A)gree/(C)ancel": A
+#       "(Y)es/(N)o": N
+#       "No names were found in your configuration files. Please enter in your domain": "{{ domain_name }}"

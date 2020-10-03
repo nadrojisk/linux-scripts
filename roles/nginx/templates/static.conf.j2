@@ -1,0 +1,14 @@
+server {
+    listen 443 ssl http2;
+    server_name {{ server_name }};
+    proxy_set_header X - Real - IP  \$remote_addr; # pass on real client IP
+    proxy_set_header Upgrade \$http_upgrade;
+    proxy_set_header Connection "Upgrade";
+    proxy_set_header Host \$host;
+
+    location / {
+        root $3;
+        index index.html;
+    }
+
+}

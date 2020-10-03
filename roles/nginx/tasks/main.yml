@@ -1,0 +1,47 @@
+---
+- name: Install make-sll-cert
+  apt:
+    name: openssl
+    update_cache: yes
+- name: Setup Default Cert
+  command: make-ssl-cert generate-default-snakeoil
+- name: Install nginx
+  apt:
+    name: nginx
+    update_cache: yes
+    cache_valid_time: 3600
+- name: Install ufw
+  apt:
+    name: ufw
+    update_cache: yes
+    cache_valid_time: 3600
+- name: UFW config
+  command: ufw allow http; ufw allow https
+- name: Copy default config file
+  copy:
+    src: default.conf
+    dest: /etc/nginx/sites-available/default
+  notify: restart nginx
+- name: Enable default configuration
+  file:
+    src: /etc/nginx/sites-available/default
+    dest: /etc/nginx/sites-enabled/default
+    state: link
+  notify: restart nginx
+- name: Copy nginx config file
+  template:
+    src: reverse_proxy.conf.j2
+    dest: "{{ conf_file }}"
+  notify: restart nginx
+- name: Enable configuration
+  file:
+    dest: /etc/nginx/sites-enabled/{{ server_name }}
+    src: "{{ conf_file }}"
+    state: link
+  notify: restart nginx
+- name: Install certbot
+  apt:
+    name: certbot
+    update_cache: yes
+    cache_valid_time: 3600
+- name: 

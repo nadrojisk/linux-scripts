@@ -1,0 +1,32 @@
+---
+- name: Linux Setup Scripts
+  hosts: 127.0.0.1
+  connection: local
+  become: yes
+
+  roles:
+    - setup
+    - nginx
+
+  vars_prompt:
+    - name: server_name
+      prompt: "What is the server name?"
+      private: no
+    - name: server_port
+      prompt: "What is the server port?"
+      private: no
+  vars:
+    conf_file: /etc/nginx/sites-available/{{ server_name }}
+    acme_challenge_type: http-01
+    acme_directory: https://acme-v02.api.letsencrypt.org/directory
+    acme_version: 2
+    acme_email: nadrojisk@pm.me
+    letsencrypt_dir: /etc/letsencrypt
+    letsencrypt_keys_dir: /etc/letsencrypt/keys
+    letsencrypt_csrs_dir: /etc/letsencrypt/csrs
+    letsencrypt_certs_dir: /etc/letsencrypt/certs
+    letsencrypt_account_key: /etc/letsencrypt/account/account.key
+    domain_name: your-domain
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
