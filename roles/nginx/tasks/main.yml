@@ -1,10 +1,4 @@
 ---
-- name: Install make-sll-cert
-  apt:
-    name: openssl
-    update_cache: yes
-- name: Setup Default Cert
-  command: make-ssl-cert generate-default-snakeoil
 - name: Install nginx
   apt:
     name: nginx
@@ -15,8 +9,14 @@
     name: ufw
     update_cache: yes
     cache_valid_time: 3600
-- name: UFW config
-  command: ufw allow http; ufw allow https
+- name: Allow everything and enable UFW
+  community.general.ufw:
+    state: enabled
+    policy: deny
+- name: Configure UFW
+  community.general.ufw:
+    rule: allow
+    name: Nginx Full
 - name: Copy default config file
   copy:
     src: default.conf
@@ -41,7 +41,6 @@
   notify: restart nginx
 - name: Install certbot
   apt:
-    name: certbot
+    name: python3-certbot-nginx
     update_cache: yes
     cache_valid_time: 3600
-- name: 
